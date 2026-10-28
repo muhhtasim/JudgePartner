@@ -1,8 +1,5 @@
 @extends(auth()->check() && auth()->user()->hasRole('Admin') ? 'layouts.admin' : (auth()->check() && auth()->user()->hasRole('ProblemSetter') ? 'layouts.judge' : 'layouts.app'))
 
-//yes
-
-
 @section('title', 'Scoreboard: ' . $contest->title . ' - JudgeMate')
 
 @section('content')

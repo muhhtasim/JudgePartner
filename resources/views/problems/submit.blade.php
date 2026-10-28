@@ -1,8 +1,6 @@
 @extends(auth()->check() && auth()->user()->hasRole('Admin') ? 'layouts.admin' : (auth()->check() && auth()->user()->hasRole('ProblemSetter') ? 'layouts.judge' : 'layouts.app'))
 @section('title', 'Submit Solution: ' . $problem->title . ' - JudgeMate')
 
-//yes
-
 @section('content')
 <div class="space-y-6 max-w-4xl mx-auto">
     {{-- Header --}}
