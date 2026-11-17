@@ -35,8 +35,9 @@ class AuthenticatedSessionController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')
-                ->with('status', 'Your account was rejected: '.($user->rejected_reason ?? 'No reason provided.'));
+            return redirect()->route('auth.pending')
+                ->with('rejected', true)
+                ->with('reason', $user->rejected_reason ?? 'No reason provided.');
         }
 
         // Block pending users
@@ -45,14 +46,22 @@ class AuthenticatedSessionController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')
-                ->with('status', 'Your account is awaiting Admin approval.');
+            return redirect()->route('auth.pending');
         }
 
         $request->session()->regenerate();
         // Forget any previously stored "intended" URL so the role-based
         // destination is always enforced rather than overridden by a stale session.
         $request->session()->forget('url.intended');
+
+        // Route-based redirect: Admin → /admin, Judge → /judge, everyone else → /dashboard
+        if ($user->hasRole('Admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->hasRole('ProblemSetter')) {
+            return redirect()->route('judge.dashboard');
+        }
 
         return redirect()->route('dashboard');
     }

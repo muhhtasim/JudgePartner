@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Judge;
 
 use App\Http\Controllers\Controller;

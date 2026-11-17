@@ -50,7 +50,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('login')
-            ->with('status', 'Registration submitted. After Admin approval, sign in and verify your email to access the dashboard.');
+        // Do NOT log them in — redirect to the pending approval page
+        return redirect()->route('auth.pending')
+            ->with('success', 'Registration submitted! Please wait for Admin approval.');
     }
 }

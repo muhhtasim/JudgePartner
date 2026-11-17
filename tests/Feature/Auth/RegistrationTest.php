@@ -34,7 +34,6 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertGuest();
-        $response->assertRedirect(route('login'));
-        $response->assertSessionHas('status', 'Registration submitted. After Admin approval, sign in and verify your email to access the dashboard.');
+        $response->assertRedirect(route('auth.pending'));
     }
 }
